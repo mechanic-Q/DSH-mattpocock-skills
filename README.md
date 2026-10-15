@@ -10,6 +10,8 @@
 
 # Skills For Real Engineers
 
+> **DSH edition** — a [DeepSeek Harness](https://github.com/deepseek-ai) adaptation of [mattpocock/skills](https://github.com/mattpocock/skills). Same skills, same names; see [DSH adaptations](#dsh-adaptations) for the exact edits and the DSH install path below.
+
 [![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
 My agent skills that I use every day to do real engineering - not vibe coding.
