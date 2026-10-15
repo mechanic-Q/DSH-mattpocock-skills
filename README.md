@@ -28,6 +28,22 @@ A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies
 
 ### 1. Get the skills
 
+<details open>
+<summary><strong>DSH</strong> (DeepSeek Harness)</summary>
+
+```bash
+git clone https://github.com/mechanic-Q/DSH-mattpocock-skills ~/src/DSH-mattpocock-skills
+bash ~/src/DSH-mattpocock-skills/install.sh
+```
+
+`install.sh` links each skill into `~/.dsh/skills` (or `~/.agents/skills` with `DSH_SKILLS_DEST=...`), skipping the `deprecated/` and `misc/` buckets. On Windows it uses directory junctions (`mklink /J`), so no admin rights are needed; pass `copy` as the first argument for a plain copy instead of a link. DSH picks the skills up live — no restart.
+
+Update with `git -C ~/src/DSH-mattpocock-skills pull`.
+
+This repo is a DSH adaptation of [mattpocock/skills](https://github.com/mattpocock/skills) — see [DSH adaptations](#dsh-adaptations) for the exact edits.
+
+</details>
+
 <details>
 <summary><strong>Claude Code</strong></summary>
 
@@ -105,6 +121,31 @@ In your agent, run it once per repo. It will:
 - Ask you where you want to save any docs we create
 
 ### 3. Bam - you're ready to go.
+
+## DSH adaptations
+
+This repository is a **DSH version** of [mattpocock/skills](https://github.com/mattpocock/skills): the full skill set, with the small number of changes needed to run under [DeepSeek Harness](https://github.com/deepseek-ai). Upstream is MIT-licensed and the original copyright is retained — see [LICENSE](./LICENSE).
+
+Nothing is renamed. Every skill keeps its upstream name, directory, and frontmatter, so this repo stays diffable against upstream and the ~100 cross-skill references inside the set keep working.
+
+The changes are deliberately minimal:
+
+| # | File | Change |
+| --- | --- | --- |
+| 1 | `skills/in-progress/claude-handoff/SKILL.md` | Launch mechanism: the Claude Code CLI (`claude --bg --name …`, `claude agents`) → DSH's `subagent` tool with `run_in_background: true`. Also `Skill tool` → `skill` tool. |
+| 2 | `skills/in-progress/README.md` | One-line description of `claude-handoff` updated to match. |
+| 3 | `skills/engineering/ask-matt/SKILL.md`, `skills/engineering/ask-matt/PHASE-BOUNDARIES.md`, `docs/engineering/ask-matt.md` | `/clear` (a Claude Code command DSH does not have) → **New session**, DSH's equivalent for emptying the window. |
+| 4 | `README.md`, `install.sh` | DSH install path and installer. |
+
+What did **not** need changing:
+
+- **Frontmatter.** DSH reads the same `name` / `description` pair, and honours `disable-model-invocation: true` with exactly the same meaning (user-invoked only, reachable solely by typing `/name`). Unknown keys — `license`, `version`, `homepage`, `author`, `argument-hint`, `metadata` — are silently ignored. `agents/openai.yaml` is Codex metadata; DSH ignores it.
+- **Tool names.** DSH's skill loader is literally the `skill` tool, so "call the Skill tool with `grilling`" resolves as written. Subagent wording maps onto DSH's `subagent` tool.
+- **`/compact`.** DSH has it natively.
+- **Relative bundle links.** DSH resolves them against the skill's own resource directory, so `tests.md`, `mocking.md`, the `*-FORMAT.md` templates, and `scripts/` all work untouched.
+- **`AGENTS.md` vs `CLAUDE.md`.** DSH reads both, so `setup-matt-pocock-skills`' selection rule holds.
+
+Not promoted: `skills/misc/` (its `git-guardrails-claude-code` is entirely Claude Code settings/hook configuration) and `skills/deprecated/` (empty). `skills/in-progress/` is included, as upstream intends it to be tried.
 
 ## Why These Skills Exist
 
