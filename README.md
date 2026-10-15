@@ -136,7 +136,7 @@ The changes are deliberately minimal:
 | --- | --- | --- |
 | 1 | `skills/in-progress/claude-handoff/SKILL.md` | Launch mechanism: the Claude Code CLI (`claude --bg --name …`, `claude agents`) → DSH's `subagent` tool with `run_in_background: true`. Also `Skill tool` → `skill` tool. |
 | 2 | `skills/in-progress/README.md` | One-line description of `claude-handoff` updated to match. |
-| 3 | `skills/engineering/ask-matt/SKILL.md`, `skills/engineering/ask-matt/PHASE-BOUNDARIES.md`, `docs/engineering/ask-matt.md` | `/clear` (a Claude Code command DSH does not have) → **New session**, DSH's equivalent for emptying the window. |
+| 3 | `skills/engineering/ask-matt/SKILL.md`, `skills/engineering/ask-matt/PHASE-BOUNDARIES.md`, `docs/engineering/ask-matt.md`, `docs/productivity/handoff.md` | `/clear` (a Claude Code command DSH does not have) → **New session**, DSH's equivalent for emptying the window. |
 | 4 | `README.md`, `install.sh` | DSH install path and installer. |
 
 What did **not** need changing:
