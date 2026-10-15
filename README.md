@@ -38,9 +38,9 @@ git clone https://github.com/mechanic-Q/DSH-mattpocock-skills ~/src/DSH-mattpoco
 bash ~/src/DSH-mattpocock-skills/install.sh
 ```
 
-`install.sh` links each skill into `~/.dsh/skills` (or `~/.agents/skills` with `DSH_SKILLS_DEST=...`), skipping the `deprecated/` and `misc/` buckets. On Windows it uses directory junctions (`mklink /J`), so no admin rights are needed; pass `copy` as the first argument for a plain copy instead of a link. DSH picks the skills up live — no restart.
+`install.sh` links each skill into `~/.dsh/skills` (DSH's managed skill root), skipping the `deprecated/` and `misc/` buckets. On Windows it uses directory junctions (`mklink /J`), so no admin rights are needed; pass `copy` as the first argument for a plain copy instead of a link. DSH picks the skills up live — no restart. The DSH Skills Manager can then list, enable/disable, categorize, update, and uninstall these skills from the DSH source; the repository remains the update source of truth.
 
-Update with `git -C ~/src/DSH-mattpocock-skills pull`.
+Update the source repository with `git -C ~/src/DSH-mattpocock-skills pull`, then rerun `bash ~/src/DSH-mattpocock-skills/install.sh` if the skill list changed. The DSH Skills Manager owns local enable/disable and category state; it does not replace the Git repository.
 
 This repo is a DSH adaptation of [mattpocock/skills](https://github.com/mattpocock/skills) — see [DSH adaptations](#dsh-adaptations) for the exact edits.
 
