@@ -33,14 +33,32 @@ A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies
 <details open>
 <summary><strong>DSH</strong> (DeepSeek Harness)</summary>
 
-```bash
-git clone https://github.com/mechanic-Q/DSH-mattpocock-skills ~/src/DSH-mattpocock-skills
-bash ~/src/DSH-mattpocock-skills/install.sh
+**Recommended — install with the DSH Skills Manager.** In DSH, open **设置 → 技能 → 技能仓库 → 添加仓库** and enter:
+
+```text
+https://github.com/mechanic-Q/DSH-mattpocock-skills
 ```
 
-`install.sh` links each skill into `~/.dsh/skills` (DSH's managed skill root), skipping the `deprecated/` and `misc/` buckets. On Windows it uses directory junctions (`mklink /J`), so no admin rights are needed; pass `copy` as the first argument for a plain copy instead of a link. DSH picks the skills up live — no restart. The DSH Skills Manager can then list, enable/disable, categorize, update, and uninstall these skills from the DSH source; the repository remains the update source of truth.
+Scan it, then install the skills you want into **DSH 用户目录** (`~/.dsh/skills`). Each skill is copied with its resource files, and the manager records its GitHub source — so 刷新并检查更新, 查看更新 (diff preview), 恢复上一版, and 卸载 all work from the UI. This is the path for normal users.
 
-Update the source repository with `git -C ~/src/DSH-mattpocock-skills pull`, then rerun `bash ~/src/DSH-mattpocock-skills/install.sh` if the skill list changed. The DSH Skills Manager owns local enable/disable and category state; it does not replace the Git repository.
+**Alternative — the installer script.** For working on the skills themselves, or to install all 34 at once:
+
+```bash
+git clone https://github.com/mechanic-Q/DSH-mattpocock-skills ~/src/DSH-mattpocock-skills
+bash ~/src/DSH-mattpocock-skills/install.sh          # link mode (default)
+bash ~/src/DSH-mattpocock-skills/install.sh copy     # copy mode
+```
+
+| Mode | DSH can use it | Visible in Skills Manager | Updates |
+| --- | --- | --- | --- |
+| `link` (default) | yes | **no** — the manager's DSH-source scan skips symlinks/junctions | instant, via `git pull` |
+| `copy` | yes | yes | rerun the script after `git pull` |
+
+`link` is why a linked install is absent from the manager UI even though the skills work. Use `copy` (or the manager) if you want them listed, searchable, toggleable, and categorizable.
+
+Both modes skip the `deprecated/` and `misc/` buckets. On Windows `link` uses directory junctions (`mklink /J`) — no admin rights, and unlike `ln -s` under Git Bash it does not silently degrade into a copy. DSH picks skills up live in either mode — no restart.
+
+Update with `git -C ~/src/DSH-mattpocock-skills pull`. After pulling, rerun the installer if the skill list changed; manager-installed copies update from 技能仓库 → 刷新并检查更新.
 
 This repo is a DSH adaptation of [mattpocock/skills](https://github.com/mattpocock/skills) — see [DSH adaptations](#dsh-adaptations) for the exact edits.
 

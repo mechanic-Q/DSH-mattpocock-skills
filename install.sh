@@ -9,6 +9,19 @@
 # Destination: $DSH_SKILLS_DEST, default ~/.dsh/skills (DSH's own skill root).
 # Point it at ~/.agents/skills to share the skills with other harnesses.
 #
+# CHOOSING A MODE
+#   DSH core follows symlinks and junctions, so `link` works for the agent.
+#   The DSH Skills Manager's DSH source does NOT: its scan skips symbolic
+#   links and junctions, so linked skills are usable but invisible in the
+#   manager UI (no search, no toggle, no category, no update check).
+#
+#   If you want the skills to show up in the Skills Manager, either
+#     - install through the manager itself: 技能仓库 -> 添加仓库 -> 安装,
+#       which records the source so 刷新并检查更新 / 恢复上一版 work; or
+#     - use `copy` here:  bash install.sh copy
+#   `link` is the right choice for a developer working on the skills, where
+#   `git pull` should refresh every installed skill immediately.
+#
 # Idempotent: re-points existing links; never deletes a real directory.
 # DSH watches its skill roots, so installed skills appear without a restart.
 set -euo pipefail
@@ -80,3 +93,9 @@ done
 echo
 echo "done: $linked linked, $copied copied, $skipped skipped  (dest: $DEST_ROOT, mode: $MODE)"
 echo "DSH picks these up live — no restart needed."
+if [[ "$MODE" == "link" ]]; then
+  echo
+  echo "note: linked skills work in DSH but are hidden from the DSH Skills Manager"
+  echo "      (its DSH-source scan skips symlinks/junctions). For a managed"
+  echo "      install, add the GitHub repo in 技能仓库, or run: bash install.sh copy"
+fi
